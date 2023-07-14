@@ -9,7 +9,7 @@ pygame.init()
 
 screen = Window.create()
 
-player = Hero(10, 330)
+player = Hero(10, 325)
 
 clock = pygame.time.Clock()
 while 1:
