@@ -25,17 +25,21 @@ while 1:
 
     #para controlar quando o player morrer
     if player.alive:
+        idling = True
             #controlo de teclas no jogo
         if key[pygame.K_a] or key[pygame.K_LEFT]:
             player.update_action(1)
             player.move_left()
-        elif key[pygame.K_d] or key[pygame.K_RIGHT]:
+            idling = False
+        if key[pygame.K_d] or key[pygame.K_RIGHT]:
             player.update_action(1)
             player.move_right()
-        elif key[pygame.K_w] or key[pygame.K_UP]:
+            idling = False
+        if key[pygame.K_w] or key[pygame.K_UP]:
             player.jump()
             player.update_action(2)
-        else:
+            idling = False
+        if idling:
             player.update_action(0)
 
         player.update_jump()
