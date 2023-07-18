@@ -4,7 +4,7 @@ from configs import *
 from Orientation import *
 
 class Hero(pygame.sprite.Sprite):
-    def __init__(self, x, y):
+    def __init__(self, x, y, unscale):
         pygame.sprite.Sprite.__init__(self)
         self.__alive = True
         self.__x = x
@@ -25,6 +25,7 @@ class Hero(pygame.sprite.Sprite):
             num_of_frames = len(os.listdir(f'imgs/{anamation}'))
             for i in range(num_of_frames):
                 img = pygame.image.load(f'imgs/{anamation}/{i}.png')
+                img = pygame.transform.scale(img, (int(img.get_width() // unscale), img.get_height() // unscale))
                 temp_list.append(img)
             self.__animation_list.append(temp_list)
 
@@ -76,8 +77,8 @@ class Hero(pygame.sprite.Sprite):
         self.__jump_state = Direction.RISING
 
     def update_jump(self):
-        GRAVITY = 8
-        MAX_JUMP = 150
+        GRAVITY = 6
+        MAX_JUMP = 235
         if self.__jump_state == Direction.RISING:
             self.__y -= 8
             if self.__y <= MAX_JUMP:
@@ -87,3 +88,12 @@ class Hero(pygame.sprite.Sprite):
             if self.__y >= self.__initial_y:
                 self.__y = self.__initial_y
                 self.__jump_state = None
+    
+    def get_width(self):
+        return self.__img.get_width()
+    
+    def get_x(self):
+        return self.__x
+    
+    def set_x(self, x):
+        self.__x = x

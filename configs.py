@@ -21,8 +21,5 @@ class Window:
 pygame.display.set_mode((Window.WIDTH, Window.HEIGHT))
 
 class World:
-    BACKGROUND = pygame.image.load("imgs/background.png").convert()
+    BACKGROUND = pygame.image.load("imgs/background.jpg").convert()
     FILL_BACKGROUND_COLOR = (255, 255, 255)
-
-#class Skins:
-        #HERO = pygame.image.load(f'imgs/idle/{i}.png')

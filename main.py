@@ -9,7 +9,10 @@ pygame.init()
 
 screen = Window.create()
 
-player = Hero(10, 330)
+player = Hero(10, 378, 1.5)
+background_x = 0
+
+
 
 clock = pygame.time.Clock()
 while 1:
@@ -25,24 +28,45 @@ while 1:
 
     #para controlar quando o player morrer
     if player.alive:
+        idling = True
             #controlo de teclas no jogo
         if key[pygame.K_a] or key[pygame.K_LEFT]:
             player.update_action(1)
             player.move_left()
+            idling = False
+
         elif key[pygame.K_d] or key[pygame.K_RIGHT]:
             player.update_action(1)
-            player.move_right()
-        elif key[pygame.K_w] or key[pygame.K_UP]:
+            player.move_right()    
+            idling = False
+
+
+        if key[pygame.K_w] or key[pygame.K_UP]:
             player.jump()
             player.update_action(2)
-        else:
+            idling = False
+        if idling:
             player.update_action(0)
 
         player.update_jump()
 
+    if player.get_x() >= 800:
+        player.set_x(800)  # Limita a posição da personagem em 800 pixels
+
+        if player.get_x() > Window.WIDTH / 2 + 200 and (key[pygame.K_d] or key[pygame.K_RIGHT]):
+            if background_x > Window.WIDTH - World.BACKGROUND.get_width():
+                background_x -= 3
+
+    elif player.get_x() <= 50:
+        player.set_x(50)  # Limita a posição da personagem em 50 pixels
+
+        if player.get_x() < Window.WIDTH / 2 - 200 and (key[pygame.K_a] or key[pygame.K_LEFT]):
+            if background_x < 0:
+                background_x += 3
+
 
     #desenhar o fundo
-    screen.blit(World.BACKGROUND, [0, 0])
+    screen.blit(World.BACKGROUND, [background_x, 0])
     
     player.update_animation()
     player.draw(screen)
